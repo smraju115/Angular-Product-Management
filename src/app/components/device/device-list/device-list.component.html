@@ -1,0 +1,58 @@
+<mat-card>
+  <mat-card-header>
+      <mat-card-title>Device List</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+      <div class="right">
+          <a [routerLink]="['/device-create']" mat-mini-fab><mat-icon>add</mat-icon></a>
+      </div>
+      <mat-table [dataSource]="dataSource" matSort>
+          <ng-container matColumnDef="picture" >
+              <mat-header-cell *matHeaderCellDef >Picture</mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                  <img src="{{imgPath}}/{{element.picture}}" class="" style="width: 50px;" />
+              </mat-cell>
+
+          </ng-container>
+          <ng-container matColumnDef="name" >
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Device Name</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="deviceType" >
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Device type</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{getDeviceTypeName( element.deviceType)}}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="releaseDate" >
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Released</mat-header-cell>
+              <mat-cell *matCellDef="let element" >{{element.releaseDate|date:'MMM-yyyy'}}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="price" >
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Price</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{element.price|number:'2.2-2'}}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="inStock" >
+              <mat-header-cell *matHeaderCellDef>In Stock</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{element.inStock ? 'Yes': 'No'}}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="specs" >
+              <mat-header-cell *matHeaderCellDef>Specs</mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                  <button mat-icon-button (click)="showSpecs(element.deviceId)"><mat-icon>dataset</mat-icon></button>
+              </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="actions" >
+              <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                  <a type="button" color="primary" mat-icon-button [routerLink]="['/device-edit', element.deviceId]"><mat-icon>edit</mat-icon></a>
+                  <button type="button" color="warn" mat-icon-button (click)="deleteDevice(element)"><mat-icon>delete</mat-icon></button>
+              </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: columns;"></mat-row>
+
+      </mat-table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+
+  </mat-card-content>
+</mat-card>

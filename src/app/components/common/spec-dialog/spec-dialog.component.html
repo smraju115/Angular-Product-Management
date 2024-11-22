@@ -1,0 +1,29 @@
+<mat-card>
+  <mat-card-header>
+      <mat-card-title>Products</mat-card-title>
+
+  </mat-card-header>
+  <mat-card-content>
+
+          <mat-table [dataSource]="dataSource" matSort>
+              <ng-container matColumnDef="specName" >
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Spec</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.specName}}</mat-cell>
+
+              </ng-container>
+              <ng-container matColumnDef="specValue" >
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.specValue}}</mat-cell>
+
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: columns;"></mat-row>
+          </mat-table>
+          <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+
+  </mat-card-content>
+  <mat-dialog-actions style="justify-content: flex-end;">
+      <button mat-button mat-dialog-close>Close</button>
+  </mat-dialog-actions>
+</mat-card>

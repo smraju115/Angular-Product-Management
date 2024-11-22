@@ -1,0 +1,30 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.main-container {
+  display: block;
+  margin: 15px 30px;
+}
+.right {
+  display: flex;
+  justify-content: flex-end;
+}
+/* .circle-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+} */
+.medium-container {
+  width: 60%;
+  margin: 16px auto;
+}
+.f-w {
+  width: 100%;
+}
+@media screen and (max-width: 600px) {
+  .medium-container {
+      width: 95%;
+      margin: 16px auto;
+  }
+}

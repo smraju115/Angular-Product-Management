@@ -1,0 +1,100 @@
+<mat-card class="medium-container">
+  <mat-card-header>
+    <mat-card-title>Create new device</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="deviceForm" (ngSubmit)="save()">
+      <mat-form-field class="f-w">
+        <mat-label>Device Name</mat-label>
+        <input type="text" matInput formControlName="name" />
+        @if(f['name'].hasError('required')){
+        <mat-error>Device name is <strong>required</strong></mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field class="f-w">
+        <mat-label>Device type</mat-label>
+        <mat-select formControlName="deviceType">
+          @for (op of typeOptions; track op) {
+          <mat-option [value]="op.value">{{ op.label }}</mat-option>
+          }
+          <!-- <mat-option *ngFor="let op of typeOptions" [value]="op.value">{{op.label}}</mat-option> -->
+        </mat-select>
+        @if(f['deviceType'].hasError('required')){
+        <mat-error>Device type is <strong>required</strong></mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field class="f-w">
+        <mat-label>Release date</mat-label>
+        <input matInput formControlName="releaseDate" [matDatepicker]="picker" />
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        @if(f['releaseDate'].hasError('required')){
+        <mat-error>Release date is <strong>required</strong></mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field class="f-w">
+        <mat-label>Price</mat-label>
+        <input type="number" matInput formControlName="price" />
+        @if(f['price'].hasError('required')){
+        <mat-error>Price is <strong>required</strong></mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field class="f-w">
+        <mat-label>Picture</mat-label>
+        <input type="text" matInput formControlName="picture" [readonly]="true" />
+        <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="pic.click()">
+          <mat-icon>photo</mat-icon>
+        </button>
+        @if(f['picture'].hasError('required')){
+        <mat-error>Picture is <strong>required</strong></mat-error>
+        }
+      </mat-form-field>
+      <div class="f-w">
+        <mat-label>In Stock?</mat-label>
+        <mat-checkbox formControlName="inStock"></mat-checkbox>
+        @if(f['inStock'].hasError('required')){
+        <mat-error>Device name is <strong>required</strong></mat-error>
+        }
+      </div>
+      <div class="add-row">
+        <h3>Add spec</h3>
+        <button (click)="addSpec()" type="button" mat-icon-button color="accent">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+      <ng-container formArrayName="specs">
+        @for(fld of specs.controls;track fld; let i = $index){
+        <div [formGroupName]="i" class="spec-row">
+          <mat-form-field class="f-w">
+            <mat-label>Spec name</mat-label>
+            <input type="text" matInput formControlName="specName" />
+            @if(specs.controls[i].get('specName')?.hasError('required')){
+            <mat-error>Spec name is <strong>required</strong></mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field class="f-w">
+            <mat-label>Spec description</mat-label>
+            <input type="text" matInput formControlName="specValue" />
+            @if(specs.controls[i].get('specValue')?.hasError('required')){
+            <mat-error>Spec description is <strong>required</strong></mat-error>
+            }
+          </mat-form-field>
+          <div>
+            <button (click)="removeSpec(i)" type="button" mat-icon-button color="warn">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+        }
+      </ng-container>
+      <div class="f-w">
+        <button mat-raised-button type="submit" color="primary" [disabled]="deviceForm.invalid">Save</button>
+      </div>
+      <input type="file" [hidden]="true" #pic (change)="pictureChanged($event)" />
+    </form>
+    <!-- {{deviceForm.value|json}} -->
+  </mat-card-content>
+  <mat-card-actions>
+    <a mat-button [routerLink]="['/device']">Back to list</a>
+  </mat-card-actions>
+</mat-card>
